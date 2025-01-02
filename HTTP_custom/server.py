@@ -25,7 +25,7 @@ def set_command():
     if command:
         current_command = command
         print(f"New command: {command}")
-        return 200
+        return "", 200
     else:
         return "Error!\n", 400
 
