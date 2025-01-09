@@ -18,7 +18,7 @@ def post_result():
     output = request.form.get("output", "")
     print(f"COMMAND OUTPUT:\n{output}")
     with open(output_log_file, "a") as log_file:
-        log_file.write(f"COMMAND OUTPUT:\n{output}\n\n")
+        log_file.write(f"{output}\n--------------------------------------------------\n")
     current_command = ""
     return "OK"
 
