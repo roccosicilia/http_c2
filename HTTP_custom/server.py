@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
@@ -28,6 +28,25 @@ def set_command():
         return "", 200
     else:
         return "Error!\n", 400
+
+@app.route('/upload_file', methods=['POST'])
+def upload_file():
+    """ receive a file"""
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part in the request"}), 400
+    
+    file = request.files['file']
+    
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+     
+    file_path = f"./uploaded_files/{file.filename}"
+    try:
+        file.save(file_path)
+        print(f"File saved to {file_path}")
+        return jsonify({"message": "File uploaded successfully", "file_path": file_path}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     print("Server started on port 80...")
