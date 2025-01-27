@@ -1,0 +1,10 @@
+import os
+from datetime import datetime
+
+desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+content = f"Data e ora di creazione del file: {current_time}"
+file_name = "poc.out.txt"
+file_path = os.path.join(desktop_path, file_name)
+with open(file_path, "w", encoding="utf-8") as file:
+    file.write(content)

